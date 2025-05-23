@@ -1,9 +1,9 @@
 # Engineering materials
 
-This repository contains engineering materials of a self-driven vehicle's model participating in the WRO Future Engineers competition in the season 2022.
+This repository contains engineering materials of a self-driven vehicle's model participating in the WRO Future Engineers competition in the season 2025.
 
 ## Team Members:
-* Brayan Tamiche
+* Brayan Tamiche 
 * Eduardo Aguilera
 * Alessandro Fabriani
 
@@ -97,19 +97,19 @@ Para utilizar este código en el vehículo, sigue los pasos estándar del Arduin
 Aquí se muestran diferentes vistas de nuestro robot.
 
 ### Vista Frontal
-![Vista Frontal del Robot](./v-photos/foto_frontal.jpg)
+![Vista Frontal del Robot](./v-fotos/foto_frontal.jpg)
 
 ### Vista Superior
-![Vista Superior del Robot](./v-photos/foto_arriba.jpg)
+![Vista Superior del Robot](./v-fotos/foto_arriba.jpg)
 
 ### Vista de Perfil
-![Vista de Perfil del Robot](./v-photos/foto_perfil_robot.jpg)
+![Vista de Perfil del Robot](./v-fotos/foto_perfil_robot.jpg)
 
 ### Vista Trasera
-![Vista Trasera del Robot](./v-photos/foto_trasera_robot.jpg)
+![Vista Trasera del Robot](./v-fotos/foto_trasera_robot.jpg)
 
 ### Vista Inferior (Pendiente de añadir)
-![Vista Inferior del Robot](./v-photos/vehicle_bottom.jpg)
+![Vista Inferior del Robot](./v-fotos/vehicle_bottom.jpg)
 
 ### Otra Vista Lateral (Pendiente de añadir)
-![Otra Vista Lateral del Robot](./v-photos/vehicle_side_2.jpg)
+![Otra Vista Lateral del Robot](./v-fotos/vehicle_side_2.jpg)
