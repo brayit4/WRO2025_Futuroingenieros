@@ -47,6 +47,13 @@ Conexión al código: La comunicación más común con Arduino es vía SPI, util
 * **Conexión al código:** Se controla mediante pines digitales (IN1, IN2 para dirección) y un pin PWM (ENA para velocidad) del Arduino, como se ve en el código `main_robot_control.ino`.
 ![Controlador de Motor L298N](./schemes/l298n.jpg)
 
+### Visión por Computadora Simple: Pixy Cam (Detección de Objetos por Firmas de Color)
+La Pixy Cam (CMUcam5) es un sensor de visión de propósito específico diseñado para detectar objetos rápidamente basándose en firmas de color que se le han enseñado previamente.
+Especificaciones clave: Procesador NXP LPC4330 de doble núcleo. Detección de múltiples objetos y sus propiedades (X, Y, ancho, alto, firma) a alta velocidad. Soporta interfaces SPI, I2C, UART, USB y salida analógica/digital.
+Función en el robot: Permite al robot identificar y rastrear objetos con colores específicos (previamente "entrenados") en su campo de visión. A diferencia del TCS3200 que da valores RGB de una superficie, la Pixy Cam entrega información sobre bloques de objetos detectados (qué color es, dónde está y cuán grande es), ideal para seguir objetivos o evitar obstáculos más complejos.
+Conexión al código: La comunicación más común con Arduino es vía SPI, utilizando pines digitales (D10, D11, D12, D13). La librería Pixy2.h simplifica la lectura de los bloques detectados y sus propiedades.
+(./schemes/Pixycam.jpg)
+
 #### Motores DC de Propulsión
 
 * Utilizamos **motores DC** de tipo genérico, que son la fuerza motriz del vehículo.
@@ -77,6 +84,7 @@ Conexión al código: La comunicación más común con Arduino es vía SPI, util
 * **Especificaciones clave:** Depende del modelo específico, pero típicamente un modulo con un fotoreceptor con comunicacion I2c.
 * **Función en el robot:** Capaz de distinguir Colores basandose en valores RGB
 * **Conexión al código:** La función `get_color()` lee el valor que se envia el sensor , proporcionando un valor que varía según la reflectividad de la superficie.
+  (./schemes/Sensor_color.jpg)
 
 #### Sensor IMU (Pendiente de Integración Completa): MPU6050
 
