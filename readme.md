@@ -63,12 +63,12 @@ El código se estructura en varias funciones clave que se relacionan directament
 * **Función en el robot:** Detectar obstáculos y medir distancias al entorno para evitar colisiones y asistir en la navegación.
 * **Conexión al código:** Se interactúa con ellos utilizando la librería `NewPing.h`. La función `medir_distancia(int sensor_index)` se encarga de leer y retornar la distancia en centímetros de cada sensor.
 
-#### Sensor IR (Detección de Línea/Color)
+#### Sensor Color (Detección de Línea/Color)
 
-* Un **sensor infrarrojo analógico** se utiliza para detectar diferencias en el color de la superficie.
-* **Especificaciones clave:** Depende del modelo específico, pero típicamente un LED IR emisor y un fototransistor receptor.
-* **Función en el robot:** Capaz de distinguir entre superficies claras y oscuras (como una línea negra en un campo blanco), fundamental para el seguimiento de línea.
-* **Conexión al código:** La función `get_color()` lee el valor analógico del sensor (conectado al pin `A0`), proporcionando un valor que varía según la reflectividad de la superficie.
+* Un **sensor Sensor de color RGB** se utiliza para detectar diferencias en el color de la superficie.
+* **Especificaciones clave:** Depende del modelo específico, pero típicamente un modulo con un fotoreceptor con comunicacion I2c.
+* **Función en el robot:** Capaz de distinguir Colores basandose en valores RGB
+* **Conexión al código:** La función `get_color()` lee el valor que se envia el sensor , proporcionando un valor que varía según la reflectividad de la superficie.
 
 #### Sensor IMU (Pendiente de Integración Completa): MPU6050
 
@@ -100,13 +100,13 @@ Aquí se muestran diferentes vistas de nuestro robot.
 ![Vista Superior del Robot](./v-fotos/foto_arriba.jpg)
 
 ### Vista de Perfil
-![Vista de Perfil del Robot](./v-fotos/foto_perfil_robot.jpg)
+![Vista de Perfil del Robot](./v-fotos/foto_side.jpg)
 
 ### Vista Trasera
-![Vista Trasera del Robot](./v-fotos/foto_trasera_robot.jpg)
+![Vista Trasera del Robot](./v-fotos/foto_trasera.jpg)
 
-### Vista Inferior (Pendiente de añadir)
-![Vista Inferior del Robot](./v-fotos/vehicle_bottom.jpg)
+### Vista Inferior 
+![Vista Inferior del Robot](./v-fotos/down_foto.jpg)
 
-### Otra Vista Lateral (Pendiente de añadir)
-![Otra Vista Lateral del Robot](./v-fotos/vehicle_side_2.jpg)
+### Otra Vista Lateral 
+![Otra Vista Lateral del Robot](./v-fotos/foto_side_2.jpg)
