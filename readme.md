@@ -32,6 +32,13 @@ El código se estructura en varias funciones clave que se relacionan directament
 * **Conexión al código:** El `setup()` y `loop()` principales se ejecutan en el Arduino UNO.
 ![Placa Arduino UNO](./schemes/arduino_uno.jpeg)
 
+### Visión por Computadora Simple: Pixy Cam (Detección de Objetos por Firmas de Color)
+La Pixy Cam (CMUcam5) es un sensor de visión de propósito específico diseñado para detectar objetos rápidamente basándose en firmas de color que se le han enseñado previamente.
+Especificaciones clave: Procesador NXP LPC4330 de doble núcleo. Detección de múltiples objetos y sus propiedades (X, Y, ancho, alto, firma) a alta velocidad. Soporta interfaces SPI, I2C, UART, USB y salida analógica/digital.
+Función en el robot: Permite al robot identificar y rastrear objetos con colores específicos (previamente "entrenados") en su campo de visión. A diferencia del TCS3200 que da valores RGB de una superficie, la Pixy Cam entrega información sobre bloques de objetos detectados (qué color es, dónde está y cuán grande es), ideal para seguir objetivos o evitar obstáculos más complejos.
+Conexión al código: La comunicación más común con Arduino es vía SPI, utilizando pines digitales (D10, D11, D12, D13). La librería Pixy2.h simplifica la lectura de los bloques detectados y sus propiedades.
+(./schemes/Pixycam.jpg)
+
 #### Controlador de Motor: L298N
 
 * El módulo **L298N** es un driver de motor de doble puente H, que nos permite controlar la dirección y la velocidad de dos motores DC de forma independiente o un motor paso a paso.
@@ -62,6 +69,7 @@ El código se estructura en varias funciones clave que se relacionan directament
 * **Especificaciones clave:** Rango de detección de 2cm a 400cm, precisión de 3mm.
 * **Función en el robot:** Detectar obstáculos y medir distancias al entorno para evitar colisiones y asistir en la navegación.
 * **Conexión al código:** Se interactúa con ellos utilizando la librería `NewPing.h`. La función `medir_distancia(int sensor_index)` se encarga de leer y retornar la distancia en centímetros de cada sensor.
+![Sensor color](./schemes/Sensor_color.jpg)
 
 #### Sensor Color (Detección de Línea/Color)
 
