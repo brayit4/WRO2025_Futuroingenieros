@@ -32,12 +32,6 @@ El código se estructura en varias funciones clave que se relacionan directament
 * **Conexión al código:** El `setup()` y `loop()` principales se ejecutan en el Arduino UNO.
 ![Placa Arduino UNO](./schemes/arduino_uno.jpeg)
 
-### Visión por Computadora Simple: Pixy Cam (Detección de Objetos por Firmas de Color)
-La Pixy Cam (CMUcam5) es un sensor de visión de propósito específico diseñado para detectar objetos rápidamente basándose en firmas de color que se le han enseñado previamente.
-Especificaciones clave: Procesador NXP LPC4330 de doble núcleo. Detección de múltiples objetos y sus propiedades (X, Y, ancho, alto, firma) a alta velocidad. Soporta interfaces SPI, I2C, UART, USB y salida analógica/digital.
-Función en el robot: Permite al robot identificar y rastrear objetos con colores específicos (previamente "entrenados") en su campo de visión. A diferencia del TCS3200 que da valores RGB de una superficie, la Pixy Cam entrega información sobre bloques de objetos detectados (qué color es, dónde está y cuán grande es), ideal para seguir objetivos o evitar obstáculos más complejos.
-Conexión al código: La comunicación más común con Arduino es vía SPI, utilizando pines digitales (D10, D11, D12, D13). La librería Pixy2.h simplifica la lectura de los bloques detectados y sus propiedades.
-(./schemes/Pixycam.jpg)
 
 #### Controlador de Motor: L298N
 
@@ -52,7 +46,7 @@ La Pixy Cam (CMUcam5) es un sensor de visión de propósito específico diseñad
 Especificaciones clave: Procesador NXP LPC4330 de doble núcleo. Detección de múltiples objetos y sus propiedades (X, Y, ancho, alto, firma) a alta velocidad. Soporta interfaces SPI, I2C, UART, USB y salida analógica/digital.
 Función en el robot: Permite al robot identificar y rastrear objetos con colores específicos (previamente "entrenados") en su campo de visión. A diferencia del TCS3200 que da valores RGB de una superficie, la Pixy Cam entrega información sobre bloques de objetos detectados (qué color es, dónde está y cuán grande es), ideal para seguir objetivos o evitar obstáculos más complejos.
 Conexión al código: La comunicación más común con Arduino es vía SPI, utilizando pines digitales (D10, D11, D12, D13). La librería Pixy2.h simplifica la lectura de los bloques detectados y sus propiedades.
-(./schemes/Pixycam.jpg)
+![Pixy cam](./schemes/Pixycam.jpg)
 
 #### Motores DC de Propulsión
 
@@ -60,7 +54,7 @@ Conexión al código: La comunicación más común con Arduino es vía SPI, util
 * **Especificaciones clave:** Operan en un rango de voltaje de **3V a 12V**. Esto nos permite flexibilidad en la elección de la fuente de alimentación y en el ajuste de la velocidad mediante PWM.
 * **Función en el robot:** Proporcionan la tracción para mover el vehículo hacia adelante y hacia atrás.
 * **Conexión al código:** Controlados a través del módulo L298N, sus velocidades se regulan mediante la función `acelerar_desacelerar()` y la dirección con `avanzar()` en `main_robot_control.ino`.
-(./schemes/dc_motor.jpg)
+![Motor](./schemes/dc_motor.jpg)
 
 #### Servomotor de Dirección: MG99R
 
@@ -68,7 +62,7 @@ Conexión al código: La comunicación más común con Arduino es vía SPI, util
 * **Especificaciones clave:** Opera con un voltaje de 4.8V a 6.6V, ángulo de rotación de aproximadamente 180 grados. Es un servo analógico con engranajes metálicos.
 * **Función en el robot:** Permite un control preciso del ángulo de las ruedas delanteras (o del mecanismo de dirección) para guiar el coche.
 * **Conexión al código:** Aunque no está explícitamente detallado en el fragmento de código actual, el control de este servomotor se realizaría utilizando la librería `Servo.h` de Arduino y un pin PWM. Su integración es clave para la lógica de giro avanzada y la navegación precisa.
-(./schemes/servomotor.jpg)
+![Servomotor](./schemes/servomotor.jpg)
 
 #### Sensores Ultrasónicos (Distancia)
 
@@ -76,7 +70,6 @@ Conexión al código: La comunicación más común con Arduino es vía SPI, util
 * **Especificaciones clave:** Rango de detección de 2cm a 400cm, precisión de 3mm.
 * **Función en el robot:** Detectar obstáculos y medir distancias al entorno para evitar colisiones y asistir en la navegación.
 * **Conexión al código:** Se interactúa con ellos utilizando la librería `NewPing.h`. La función `medir_distancia(int sensor_index)` se encarga de leer y retornar la distancia en centímetros de cada sensor.
-![Sensor color](./schemes/Sensor_color.jpg)
 
 #### Sensor Color (Detección de Línea/Color)
 
@@ -84,7 +77,7 @@ Conexión al código: La comunicación más común con Arduino es vía SPI, util
 * **Especificaciones clave:** Depende del modelo específico, pero típicamente un modulo con un fotoreceptor con comunicacion I2c.
 * **Función en el robot:** Capaz de distinguir Colores basandose en valores RGB
 * **Conexión al código:** La función `get_color()` lee el valor que se envia el sensor , proporcionando un valor que varía según la reflectividad de la superficie.
-  (./schemes/Sensor_color.jpg)
+![Sensor color](./schemes/Sensor_color.jpg)
 
 #### Sensor IMU (Pendiente de Integración Completa): MPU6050
 
