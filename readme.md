@@ -70,7 +70,7 @@ Aunque el MPU-9250 es capaz de proporcionar datos de aceleración y orientación
 
 
 ## Construcción Mecánica y Eléctrica
-El proyecto Chola basa la estructura de su chasis en un Kit de carros autónomos adquirido a través de Alibaba: Encuéntralo aquí 
+El proyecto Chola basa la estructura de su chasis en un Kit de carros autónomos adquirido a través de Alibaba: [Encuéntralo aquí](https://es.aliexpress.com/item/1005006788786655.html?spm=a2g0o.productlist.main.43.788c61bbyYbAUe&algo_pvid=8a4314de-45bc-40f3-811d-de9f4102bb64&algo_exp_id=8a4314de-45bc-40f3-811d-de9f4102bb64-42&pdp_ext_f=%7B"order"%3A"-1"%2C"eval"%3A"1"%7D&pdp_npi=4%40dis%21VEF%211457435929.90%211078502588.13%21%21%211020.00%21754.80%21%402103277f17503393304405555ee43f%2112000038324660425%21sea%21VE%210%21ABX&curPageLogUid=O19C7m76YOXE&utparam-url=scene%3Asearch%7Cquery_from%3A)
 
 
 [Aquí encontrará un tutorial del armado original del chasis](https://youtu.be/ulTM1uV1Bvg?si=uPVaVt-tIMoJ6x8m)
@@ -135,16 +135,25 @@ Para transmitir el movimiento a las ruedas traseras , se engrana el motor a un p
 
 ![motorDC](./schemes/motor_DC.jpg)
 
-## Circuito electrico
+## Circuito electrico y alimentacion
 
 Este diagrama representa las conexiones fundamentales del sistema de nuestro robot “Chola”, propulsado por una batería de Li-on de 7.4V y 4000 mAh y gestionado por un Arduino GIGA. Esta integración de componentes permite la detección de obstáculos, el control de movimiento y la percepción visual.
 La batería de 7.4V y 4Ah sirve como la fuente de energía principal para todo el sistema. Ya que muchos componentes operan a 5V o 3.3V, se ha incorporado un regulador de voltaje LM2596. Este regulador es muy importante, ya que reduce el voltaje de la batería (7.4V) a 5V para alimentar el Arduino GIGA y los sensores, minimizando la disipación de calor en comparación con los reguladores lineales. El motor DC se alimenta directamente de la batería a 7.4V, aprovechando la capacidad de la batería para proporcionar la corriente necesaria para su funcionamiento. 
+
+
+![Regulador](./schemes/regulador.png)
+
 
 - Tipo de Batería: Ión de Litio (Li-ion). Fueron elegidas por su equilibrio entre densidad de energía, ciclo de vida y seguridad relativa, en comparación con otras baterías de litio. 
 - Voltaje Nominal: 7.4V. Esto se debe a que está compuesto por dos celdas de Ión de Litio conectadas en serie (2S). Cada celda Li-ion tiene un voltaje nominal de 3.7V, lo que suma 2×3.7V=7.4V. 
 - Capacidad: 4000 mAh (Miliamperios-hora) o 4 Ah (Amperios-hora). Esta cifra indica cuánta carga eléctrica puede almacenar la batería. Teóricamente, una batería de 4Ah puede suministrar 4 Amperios de corriente durante una hora, o 1 Amperio durante cuatro horas. 
 - Dimensiones y Peso:3.7cm x 1.8cm x 7 cm y 100 gramos de peso.
 
+
+![Regulador](./schemes/Baterias.png)
+
+
+## Esquema de conecciones y PIN OUTS
 ![Circuito electrico](./others/planos/Circuito_electrico.jpg)
 
 ## Estrategia
