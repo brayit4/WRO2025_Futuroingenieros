@@ -162,12 +162,12 @@ Va a tener un contador de giros mediante una variable, y cuando identifique que 
 
 ## Imagenes del robot
 
-Foto frontal:![foto frontal](v-fotos\foto_frontal.jpg)
-Foto izquierda:![foto izquierda](v-fotos\foto_izquierda.jpg)
-Foto drecha:![foto derecha](v-fotos\foto_derecha.jpg)
-Foto atras:![foto atras](v-fotos\foto_atras.jpg)
-Foto arriba:![foto arriba](v-fotos\foto_arriba.jpg)
-Foto abajo:![foto abajo](v-fotos\foto_abajo.jpg)
+Foto frontal:![foto frontal](./v-fotos/foto_frontal.jpg)
+Foto izquierda:![foto izquierda](./v-fotos/foto_izquierda.jpg)
+Foto drecha:![foto derecha](./v-fotos/foto_derecha.jpg)
+Foto atras:![foto atras](./v-fotos/foto_atras.jpg)
+Foto arriba:![foto arriba](./v-fotos/foto_arriba.jpg)
+Foto abajo:![foto abajo](./v-fotos/foto_abajo.jpg)
 
 
 
