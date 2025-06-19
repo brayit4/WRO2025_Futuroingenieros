@@ -126,7 +126,14 @@ La distancia entre ejes de 15.5 cm
  - El motor usado es un motor DC de 3v a 12v genérico , con un piñón de 12 dientes. 
 Para transmitir el movimiento a las ruedas traseras , se engrana el motor a un piñón de 45 dientes , este último está ubicado en el eje de las ruedas y transmite el movimiento de los motores en una relación de 3,75
 
+- Este esta conectado a un driver de motores DC L298n y funciona mediante 2 pines de polaridad y un pin que regula la velocidad mediante pwn
+
+![l298n](./schemes/l298n.jpg)
+
 - Lo cual todo esto nos deja una transmisión de 1500rpm a 375 rpm de el motor a el eje.
+
+
+![motorDC](./schemes/motor_DC.jpg)
 
 ## Circuito electrico
 
