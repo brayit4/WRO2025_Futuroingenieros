@@ -22,11 +22,10 @@ Perforar la cobertura para el motor.
 ## Medidas generales
 
 Las ruedas traseras vienen incluidas en el kit , tienen unas medidas de 6cm de diámetro y 3cm de grosor 
-![Medidasruedas traseras](./other/piezas/IMAGEN RUEDA TRASERA medidas)
-
+![Rueda trasera](./other/piezas/ruedasmedidas.png)
 
 Las ruedas delanteras son ruedas de para lego genéricas con medidas de 2.5cm de grosor y 4 cm de diámetro.
-
+![Rueda delantera](./other/piezas/ruedasdelante.jpg)
 
 El eje trasero mide 8.5cm de longitud y el eje delantero mide 6.4cm con un volado delantero de 5cm.
 
