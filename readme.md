@@ -1,3 +1,10 @@
+# DON BOSCO ENGINEERS
+
+# CONTENIDO
+
+
+
+
 # Introducción.
 
 ## Eduardo
@@ -13,9 +20,9 @@ Durante el desarrollo de este proyecto, afrontamos desafíos que requirieron ide
 ## El robot Chola
 El sistema de control adoptado para nuestro robot, ha sido desarrollado en el entorno de programación Arduino IDE, utilizando para ello la placa Arduino GIGA como controlador principal, permitiendo una interacción eficiente con el hardware del robot, sustentando su operación autónoma
 El núcleo de este sistema se ubica en el archivo src/main_robot_control.ino. Este código está diseñado para gestionar los subsistemas críticos del robot, que incluyen:
-    - Medición de distancia: Esencial para la navegación y la prevención de que el robot este muy cerca de la pared y pueda alterar su funcionamiento chocándose o alterando su velocidad, para ello usaremos un sensor ultrasonido HC-SR04.
-    - Control preciso del movimiento: Usaremos PID para mantener el robot estable que no se desvié manteniéndose siempre en el medio de la pista, esto hara que no colisione contra la pared, para ello usaremos un giroscopio GY-9960.
-    - Detección de líneas de color azul y naranja: Clave para reconocer si el robot está girando en sentido horario o antihorario, e identificar el color de los pilares y la zona de estacionamiento, para lograr esto usaremos una cámara PIXY 2.
+ - Medición de distancia: Esencial para la navegación y la prevención de que el robot este muy cerca de la pared y pueda alterar su funcionamiento chocándose o alterando su velocidad, para ello usaremos la camara PIXY 2.
+- Control preciso del movimiento: Usaremos PID para mantener el robot estable que no se desvié manteniéndose siempre en el medio de la pista, esto hara que no colisione contra la pared, para ello usaremos un giroscopio MPU_9250.
+- Detección de líneas de color azul y naranja: Clave para reconocer si el robot está girando en sentido horario o antihorario, e identificar el color de los pilares y la zona de estacionamiento, para lograr esto usaremos una cámara PIXY 2.
 La estructura del código se organiza en una serie de funciones clave. Cada una de estas funciones ha sido creada para interactuar de manera directa y específica con los diversos componentes electromecánicos del robot, asegurando una comunicación fluida y un control óptimo sobre cada aspecto de su desempeño.
 
 ### Controlador de Movimiento: Motor Paso a Paso 5V
@@ -30,10 +37,9 @@ Para controlar el movimiento angular preciso del robot, se ha decidido utilizar 
 El motor paso a paso de 5V es ideal para el sistema de dirección Ackermann porque su capacidad de posicionamiento exacto y repetible es clave para manipular los ángulos de las ruedas con mucha efectividad. A diferencia de un servo, puede detenerlo en cualquier paso intermedio, lo que le da un control incremental y muy preciso.
 
 ### Posibles Mejoras:
- - Motores Paso a Paso con Mayor Torque: Si el robot necesita mover mecanismos más pesados o resistir fuerzas externas mayores en el futuro, se consideraría usar un motor paso a paso con un torque nominal más alto. Esto probablemente implicaría un mayor voltaje de operación o corriente, lo que a su vez requeriría un controlador de motor más robusto.
-  - Protección contra el Agua y el Polvo: Dependiendo de dónde opere el robot, se beneficiaría mucho usar motores paso a paso sellados o construir carcasas protectoras alrededor de ellos. Esto aumentaría su fiabilidad y vida útil al protegerlos de la humedad y la suciedad.
-Lo puedes conseguir aquí: 
-Amazon.com: WWZMDiB 28BYJ-48 ULN2003 Kit de motor paso a paso y placa de conductor de 5 V compatible con Arduino Raspberry Pi (3 piezas) : Electrónica
+- Motores Paso a Paso con Mayor Torque: Si el robot necesita mover mecanismos más pesados o resistir fuerzas externas mayores en el futuro, se consideraría usar un motor paso a paso con un torque nominal más alto. Esto probablemente implicaría un mayor voltaje de operación o corriente, lo que a su vez requeriría un controlador de motor más robusto.
+- Protección contra el Agua y el Polvo: Dependiendo de dónde opere el robot, se beneficiaría mucho usar motores paso a paso sellados o construir carcasas protectoras alrededor de ellos. Esto aumentaría su fiabilidad y vida útil al protegerlos de la humedad y la suciedad.
+
 
 ## Microcontrolador: Arduino GIGA R1 WiFi
 En la valida anterior, nos apoyábamos en un ARDUINO UNO para gestionar los diversos componentes del robot. Para esta competencia, buscamos una solución más potente y consolidada, por lo que confiamos en el Arduino GIGA R1 WiFi, que es microcontrolador el cual es un avance significativo, al combinar una gran capacidad de procesamiento con conectividad integrada, que lo hace ideal para manejar todos los sensores y actuadores del robot de manera más optimizada y eficiente.
@@ -137,7 +143,28 @@ La batería de 7.4V y 4Ah sirve como la fuente de energía principal para todo e
 - Capacidad: 4000 mAh (Miliamperios-hora) o 4 Ah (Amperios-hora). Esta cifra indica cuánta carga eléctrica puede almacenar la batería. Teóricamente, una batería de 4Ah puede suministrar 4 Amperios de corriente durante una hora, o 1 Amperio durante cuatro horas. 
 - Dimensiones y Peso:3.7cm x 1.8cm x 7 cm y 100 gramos de peso.
 
-![Circuito electrico](./others/planos/Circuito_electrico)
+![Circuito electrico](./others/planos/Circuito_electrico.jpg)
+
+## Estrategia
+
+### Primer reto:
+empieza cuando pulsamos el botón, aquí la cámara pixy 2.1 va a leer la línea que tiene al frente, si lee al principio la línea azul  seleccionará mediante una variable que determinará el programa antihorario, mientras que si lee al principio la línea naranja que está más cerca, se determinará mediante la misma variable el programa horario, todo esto mientras el robot va avanzando, cuando detecta que va muy cerca a la pared va a girar hacia la derecha o izquierda dependiendo de lo que haya detectado primero o si la línea izquierda o derecha la cámara pixi 2.
+
+A su vez, para mantenerse mirando al frente usará el giroscopio, cuando gire, va a girar a hasta noventa grados, y cuando avance va a tomar en cuenta el valor del giroscopio y en cada cuadrante se va a actualizar el cero ya que cuando gira el valor del giroscopio te puede arrojar un valor como 0 grados, 90 grados, 180 grados, eso se va a solucionar con una función, usará un control pid para que siempre mire para al frente.
+
+Va a tener un contador de giros mediante una variable, y cuando identifique que ya ha dado 12 vueltas, procederá a detenerse.
+
+![Diagramareto1](./schemes/Diagrama_reto1.jpg)
+
+### Segundo reto:
+empieza cuando pulsamos el botón, aquí la cámara pixy 2.1 va a leer la línea que tiene al frente, si lee al principio la línea azul  seleccionará mediante una variable que determinará el programa antihorario, mientras que si lee al principio la línea naranja que está más cerca, se determinará mediante la misma variable el programa horario, todo esto mientras el robot va avanzando, cuando detecta que va muy cerca a la pared va a girar hacia la derecha o izquierda dependiendo de lo que haya detectado primero o si la línea izquierda o derecha la cámara pixi 2
+
+Para poder esquivar los pilares rojos y verdes correctamente, la cámara pixy 2.1 va a detectar los pilares rojos y verdes, en base a eso, va a girar a la izquierda del pilar verde y a la derecha del pilar rojo en el caso horario, pero en el antihorario cuando detecte un pilar verde ira lo esquivara por el lado derecho y el pilar rojo por el lado izquierdo.
+
+Va a tener un contador de giros mediante una variable, y cuando identifique que ya ha dado 12 vueltas, va a buscar las paredes rosadas/moradas, cuando las identifique con la cámara pixy 2.1, procederá a estacionarse en paralelo en el estacionamiento retrocediendo, ajustando el giro varias veces para que vaya entrando  y acomodándose para quedar estacionado.
+
+![Diagramareto2](./schemes/Diagrama_reto2.jpg)
+
 
 
 
