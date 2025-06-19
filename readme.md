@@ -1,11 +1,5 @@
 # DON BOSCO ENGINEERS
 
-# CONTENIDO
-
-
-
-
-# Introducción.
 
 ## Eduardo
 Soy estudiante de cuarto año de bachillerato, soy alguien muy sociable, competitivo, y me gusta experimentar en cosas que nunca he hecho. Este es mi primer año en robótica, por lo consiguiente no tengo mucha experiencia en este ámbito. Tengo conocimientos del mundo automotriz, por lo que soy el mecánico y diseñador del robot.
@@ -14,13 +8,14 @@ Soy estudiante de quinto año de bachillerato, me califico como trabajador y com
 ## Brayan
 Soy estudiante de cuarto año de bachillerato, me considero alguien muy sociable, competitivo, creativo y gozo siempre de muy buen humor. Este es mi segundo año en robótica, el año pasado participé en la competencia internacional de la WRO, celebrada Turquía, en la categoría Futuros Innovadores. este año me he planteado un reto: consolidarme como campeón internacional en una categoría distinta; la de Futuros Ingenieros. Por mi experiencia en la electrónica y programación soy, el responsable de todo el cableado en el proyecto y programador.
 
+## EL PROYECTO CHOLA
 El equipo DB Engineers se enorgullece en presentar a *Chola*, un robot que representa nuestro esfuerzo de diseño y desarrollo de un sistema autónomo capaz de actuar de manera inteligente con su entorno, que permite demostrar integrar diversas tecnologías de control, para buscar la eficiencia y precisión en cada una de las tareas que debe ejecutar.
 Durante el desarrollo de este proyecto, afrontamos desafíos que requirieron idear e implementar soluciones para dar vida a nuestro robot, desde su arquitectura de software y hardware hasta su capacidad para navegar y ejecutar acciones específicas. Chola es más que un robot; es una prueba de nuestro compromiso con la ingeniería y la innovación, creado para superar obstáculos y aprender de su interacción con el mundo.
 
-## El robot Chola
+## EL ROBOT
 El sistema de control adoptado para nuestro robot, ha sido desarrollado en el entorno de programación Arduino IDE, utilizando para ello la placa Arduino GIGA como controlador principal, permitiendo una interacción eficiente con el hardware del robot, sustentando su operación autónoma
 El núcleo de este sistema se ubica en el archivo src/main_robot_control.ino. Este código está diseñado para gestionar los subsistemas críticos del robot, que incluyen:
- - Medición de distancia: Esencial para la navegación y la prevención de que el robot este muy cerca de la pared y pueda alterar su funcionamiento chocándose o alterando su velocidad, para ello usaremos la camara PIXY 2.
+- Medición de distancia: Esencial para la navegación y la prevención de que el robot este muy cerca de la pared y pueda alterar su funcionamiento chocándose o alterando su velocidad, para ello usaremos la camara PIXY 2.
 - Control preciso del movimiento: Usaremos PID para mantener el robot estable que no se desvié manteniéndose siempre en el medio de la pista, esto hara que no colisione contra la pared, para ello usaremos un giroscopio MPU_9250.
 - Detección de líneas de color azul y naranja: Clave para reconocer si el robot está girando en sentido horario o antihorario, e identificar el color de los pilares y la zona de estacionamiento, para lograr esto usaremos una cámara PIXY 2.
 La estructura del código se organiza en una serie de funciones clave. Cada una de estas funciones ha sido creada para interactuar de manera directa y específica con los diversos componentes electromecánicos del robot, asegurando una comunicación fluida y un control óptimo sobre cada aspecto de su desempeño.
@@ -44,7 +39,7 @@ El motor paso a paso de 5V es ideal para el sistema de dirección Ackermann porq
 ## Microcontrolador: Arduino GIGA R1 WiFi
 En la valida anterior, nos apoyábamos en un ARDUINO UNO para gestionar los diversos componentes del robot. Para esta competencia, buscamos una solución más potente y consolidada, por lo que confiamos en el Arduino GIGA R1 WiFi, que es microcontrolador el cual es un avance significativo, al combinar una gran capacidad de procesamiento con conectividad integrada, que lo hace ideal para manejar todos los sensores y actuadores del robot de manera más optimizada y eficiente.
 ## Especificaciones Clave del Arduino GIGA R1 WiFi:
-![Eje trasero](./schemes/Arduino_GIGA)
+![ArduinoGIGA](./schemes/Arduino_GIGA)
 - Microcontrolador: STM32H747XI (Dual-core, Cortex-M7 a 480 MHz y Cortex-M4 a 240 MHz)
 - Memoria Flash: 2 MB
 - SRAM: 1 MB
@@ -165,7 +160,14 @@ Va a tener un contador de giros mediante una variable, y cuando identifique que 
 
 ![Diagramareto2](./schemes/Diagrama_reto2.jpg)
 
+## Imagenes del robot
 
+Foto frontal:![foto frontal](v-fotos\foto_frontal.jpg)
+Foto izquierda:![foto izquierda](v-fotos\foto_izquierda.jpg)
+Foto drecha:![foto derecha](v-fotos\foto_derecha.jpg)
+Foto atras:![foto atras](v-fotos\foto_atras.jpg)
+Foto arriba:![foto arriba](v-fotos\foto_arriba.jpg)
+Foto abajo:![foto abajo](v-fotos\foto_abajo.jpg)
 
 
 

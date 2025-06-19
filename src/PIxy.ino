@@ -1,187 +1,220 @@
-#include <Pixy2.h> // Incluye la librería oficial de Pixy2
+#include <Pixy2.h>
 
-// Crea un objeto Pixy2 para la comunicación con la cámara
+// Crea un objeto Pixy2 para comunicación SPI
 Pixy2 pixy;
 
-// --- Variables para almacenar la información del objeto detectado ---
-int detectedSignature = 0;   // 0 si no se detecta nada; 1-7 para las firmas de color.
-int detectedX = -1;          // Coordenada X del centro del objeto (0-319; -1 si no).
-int detectedY = -1;          // Coordenada Y del centro del objeto (0-199; -1 si no).
-int detectedWidth = 0;       // Ancho del objeto en píxeles (0-319; 0 si no hay objeto).
-int detectedHeight = 0;      // Alto del objeto en píxeles (0-199; 0 si no hay objeto).
-// --- Fin de Variables de Detección ---
+// --- Configuración para la DISTANCIA (¡MUY IMPORTANTE: NECESITA CALIBRACIÓN!) ---
+const float KNOWN_OBJECT_SIZE_CM = 5.0;      // <<< ¡AJUSTA ESTE VALOR al tamaño REAL de tu objeto!
+const float PIXY_FOCAL_LENGTH_PIXELS = 277.0; // <<< ¡AJUSTA ESTE VALOR POR CALIBRACIÓN!
 
-// --- Variables para el estado del carrito (ejemplo, puedes añadir más) ---
-enum CarritoEstado {
-  BUSCANDO,
-  SIGUIENDO_VERDE,
-  EVITANDO_ROJO,
-  DETENIDO_AZUL,
-  PARADO // Estado inicial o de error
-};
 
-CarritoEstado estadoActual = PARADO; // El carrito empieza parado
+// =========================================================================
+// --- CONFIGURACIÓN DE FILTROS POR ROL DE FIRMA ---
+// =========================================================================
 
-// --- Constantes para la lógica de seguimiento/evasión (ajusta según tu carrito) ---
-const int CENTRO_MIN_X = 140; // Rango inferior del centro de la imagen (aproximadamente 320/2 - buffer)
-const int CENTRO_MAX_X = 180; // Rango superior del centro de la imagen (aproximadamente 320/2 + buffer)
-const int DISTANCIA_CERCANA_Y = 150; // Si Y es mayor que esto, el objeto está muy cerca (Pixy Y va de 0 arriba a 199 abajo)
-// --- Fin de Constantes ---
+// --- Rol 1: OBJETIVO PRINCIPAL (Filtros Estrictos) ---
+const int TARGET_SIGNATURE = 1;               // Firma para el objetivo (rojo).
+const float TARGET_DISTANCE_THRESHOLD = 80.0; // Distancia para considerarlo "lejano".
+const int TARGET_MIN_AGE_FRAMES = 10;         // Nº de frames para no ser "fugaz".
+const int TARGET_MIN_AREA_PIXELS = 50;        // Área mínima para no ser ruido.
+const float TARGET_MIN_ASPECT_RATIO = 0.5;    // Ratio mínimo de forma (ancho/alto).
+const float TARGET_MAX_ASPECT_RATIO = 2.0;    // Ratio máximo de forma (ancho/alto).
+
+// --- Rol 2: OBSTÁCULO / SEGUNDA PRIORIDAD (Ahora con Filtros Estrictos) ---
+const int OBSTACLE_SIGNATURE = 3;             // Firma para el obstáculo (verde).
+// >>> AHORA USA LOS MISMOS PARÁMETROS DE FILTRADO QUE EL OBJETIVO PRINCIPAL <<<
+const float OBSTACLE_DISTANCE_THRESHOLD = 80.0; // Misma distancia para considerarlo "lejano".
+const int OBSTACLE_MIN_AGE_FRAMES = 10;         // Mismo nº de frames para no ser "fugaz".
+const int OBSTACLE_MIN_AREA_PIXELS = 50;        // Misma área mínima para no ser ruido.
+const float OBSTACLE_MIN_ASPECT_RATIO = 0.5;    // Mismo ratio mínimo de forma (ancho/alto).
+const float OBSTACLE_MAX_ASPECT_RATIO = 2.0;    // Mismo ratio máximo de forma (ancho/alto).
+
+
+// =========================================================================
+// --- CONFIGURACIÓN DE CUADRANTES DE PANTALLA ---
+// Asumiendo que la Pixy2 tiene una resolución de 316x208 (ancho x alto)
+const int SCREEN_CENTER_X = 316 / 2;
+const int SCREEN_CENTER_Y = 208 / 2;
+const int CENTRAL_QUADRANT_THRESHOLD_X = 50; // Margen en X para el cuadrante central
+const int CENTRAL_QUADRANT_THRESHOLD_Y = 30; // Margen en Y para el cuadrante central
+
 
 void setup() {
-  // Configuración de pines para motores o LEDs aquí si las tienes (no incluidas en este código)
-  // pinMode(LED_VERDE_PIN, OUTPUT);
-  // pinMode(LED_ROJO_PIN, OUTPUT);
+  Serial.begin(115200);
+  Serial.println("Iniciando PixyCam con Filtros por Roles...");
+  delay(100);
 
-  // Serial.begin(115200); // Solo para depuración
-  // Serial.println("Iniciando Pixy2 y lógica de colores...");
-
-  pixy.init();
-  // pixy.changeProg("color_connected_components"); // Asegúrate de que Pixy2 esté en este programa
+  if (pixy.init() != 0) {
+    Serial.println("Error al inicializar PixyCam. Reintentando...");
+    while(pixy.init() != 0);
+  }
+  Serial.println("PixyCam inicializada correctamente.");
+  Serial.println("----------------------------------------------");
 }
 
+void loop() {
+  int blockCount = pixy.ccc.getBlocks();
 
-void PIXY() {
-  // 1. Resetear las variables de detección en cada ciclo
-  detectedSignature = 0;
-  detectedX         = -1;
-  detectedY         = -1;
-  detectedWidth     = 0;
-  detectedHeight    = 0;
-
-  // 2. Obtener el número de bloques de color detectados
-  int numBlocks = pixy.ccc.getBlocks();
-
-  // 3. Procesar los datos si se detectó al menos un bloque de color
-  if (numBlocks > 0) {
-    // Para esta lógica, tomaremos el primer bloque (índice 0).
-    // Si necesitas el más grande, usa la lógica de "largestBlockIndex" del código anterior.
-    detectedSignature = pixy.ccc.blocks[0].m_signature;
-    detectedX         = pixy.ccc.blocks[0].m_x;
-    detectedY         = pixy.ccc.blocks[0].m_y;
-    detectedWidth     = pixy.ccc.blocks[0].m_width;
-    detectedHeight    = pixy.ccc.blocks[0].m_height;
+  if (blockCount < 0) {
+    Serial.print("Error de comunicacion con PixyCam: ");
+    Serial.println(blockCount);
+    return;
   }
 
-  // --- LÓGICA PRINCIPAL PARA RECONOCER COLORES Y DECIDIR ACCIONES ---
+  if (blockCount > 0) {
+    Serial.print("Detectados ");
+    Serial.print(blockCount);
+    Serial.println(" objetos:");
 
-  switch (detectedSignature) {
-    case 1: // Firma 1: Reconocida como 'ROJO' (ej. obstáculo o meta a evitar)
-      estadoActual = EVITANDO_ROJO;
-      // Aquí puedes añadir más lógica para el movimiento de evasión
-      if (detectedY > DISTANCIA_CERCANA_Y) { // Si el objeto rojo está muy cerca
-        // Frenar o girar bruscamente para evitar la colisión
-        // controlMotor(DETENER); // Función ficticia de control de motor
-        // Serial.println("Objeto ROJO muy cerca! Deteniendo."); // Debug
-      } else if (detectedX < CENTRO_MIN_X) { // Objeto rojo a la izquierda
-        // Girar a la derecha para rodearlo
-        // controlMotor(GIRAR_DERECHA);
-        // Serial.println("Objeto ROJO a la izquierda! Girando a la derecha."); // Debug
-      } else if (detectedX > CENTRO_MAX_X) { // Objeto rojo a la derecha
-        // Girar a la izquierda para rodearlo
-        // controlMotor(GIRAR_IZQUIERDA);
-        // Serial.println("Objeto ROJO a la derecha! Girando a la izquierda."); // Debug
-      } else { // Objeto rojo delante, pero no demasiado cerca
-        // Puede seguir recto con cautela o detenerse preventivamente
-        // controlMotor(AVANZAR_LENTO);
-        // Serial.println("Objeto ROJO delante. Avanzando con cautela."); // Debug
+    // --- Lógica para encontrar el objeto OBSTACLE_SIGNATURE más cercano ---
+    float closestObstacleDistance = 9999.0; // Inicializamos con un valor muy alto
+    int closestObstacleIndex = -1; // Para guardar el índice del obstáculo más cercano
+
+    for (int i = 0; i < blockCount; i++) {
+      if (pixy.ccc.blocks[i].m_signature == OBSTACLE_SIGNATURE) {
+        int obstacleWidth = pixy.ccc.blocks[i].m_width;
+        if (obstacleWidth > 0) {
+          float currentObstacleDistance = (KNOWN_OBJECT_SIZE_CM * PIXY_FOCAL_LENGTH_PIXELS) / obstacleWidth;
+          if (currentObstacleDistance < closestObstacleDistance) {
+            closestObstacleDistance = currentObstacleDistance;
+            closestObstacleIndex = i;
+          }
+        }
       }
-      break;
+    }
+    // --- Fin de la lógica para encontrar el obstáculo más cercano ---
 
-    case 2: // Firma 2: Reconocida como 'VERDE' (ej. objetivo o camino a seguir)
-      estadoActual = SIGUIENDO_VERDE;
-      // Lógica para seguir el objeto verde
-      if (detectedX < CENTRO_MIN_X) { // Objeto verde a la izquierda
-        // Girar a la izquierda para centrarlo
-        // controlMotor(GIRAR_IZQUIERDA);
-        // Serial.println("Objeto VERDE a la izquierda! Girando a la izquierda."); // Debug
-      } else if (detectedX > CENTRO_MAX_X) { // Objeto verde a la derecha
-        // Girar a la derecha para centrarlo
-        // controlMotor(GIRAR_DERECHA);
-        // Serial.println("Objeto VERDE a la derecha! Girando a la derecha."); // Debug
-      } else { // Objeto verde centrado
-        // Avanzar recto hacia él
-        // controlMotor(AVANZAR_RECTO);
-        // Serial.println("Objeto VERDE centrado! Avanzando."); // Debug
+
+    for (int j = 0; j < blockCount; j++) {
+      // Extrae los datos comunes del objeto actual
+      int signature = pixy.ccc.blocks[j].m_signature;
+      int x = pixy.ccc.blocks[j].m_x;
+      int y = pixy.ccc.blocks[j].m_y;
+      int width = pixy.ccc.blocks[j].m_width;
+      int height = pixy.ccc.blocks[j].m_height;
+      int age = pixy.ccc.blocks[j].m_age;
+      
+      String objectLabel = ""; // Etiqueta para imprimir
+      float distance = 0.0;
+      bool printPriorityDetails = false; // Bandera para controlar la impresión de detalles de objetos prioritarios
+
+      // Calcula la distancia si el ancho es válido (evitar división por cero)
+      if (width > 0) {
+        distance = (KNOWN_OBJECT_SIZE_CM * PIXY_FOCAL_LENGTH_PIXELS) / width;
       }
-      // Si está muy cerca (detectar por Y o por size), puede detenerse o agarrar
-      if (detectedY > DISTANCIA_CERCANA_Y && detectedX >= CENTRO_MIN_X && detectedX <= CENTRO_MAX_X) {
-        // Objeto verde cerca y centrado. Alcanzado el objetivo.
-        // controlMotor(DETENER);
-        // Serial.println("Objeto VERDE alcanzado! Deteniendo."); // Debug
+
+      // --- SWITCH DE DECISIÓN POR FIRMA ---
+      switch (signature) {
+        
+        case TARGET_SIGNATURE: { // Reglas para el OBJETIVO PRINCIPAL (rojo)
+          objectLabel = "[OBJETIVO] ";
+          
+          if ((width * height) < TARGET_MIN_AREA_PIXELS) {
+            Serial.println("   --> Descartado " + objectLabel + " (área muy pequeña).");
+            continue;
+          }
+          
+          float aspectRatio = (float)width / (float)height;
+          if (aspectRatio < TARGET_MIN_ASPECT_RATIO || aspectRatio > TARGET_MAX_ASPECT_RATIO) {
+            Serial.println("   --> Descartado " + objectLabel + " (forma incorrecta).");
+            continue;
+          }
+          
+          if (age < TARGET_MIN_AGE_FRAMES && distance > TARGET_DISTANCE_THRESHOLD) {
+            Serial.println("   --> Descartado " + objectLabel + " (lejano y fugaz).");
+            continue;
+          }
+          
+          objectLabel = "[OBJETIVO VÁLIDO] ";
+          printPriorityDetails = true; // Activa la impresión de detalles para el objetivo
+
+          // Lógica para girar a la izquierda si el objetivo está en el cuadrante central
+          if (x >= (SCREEN_CENTER_X - CENTRAL_QUADRANT_THRESHOLD_X) && 
+              x <= (SCREEN_CENTER_X + CENTRAL_QUADRANT_THRESHOLD_X) &&
+              y >= (SCREEN_CENTER_Y - CENTRAL_QUADRANT_THRESHOLD_Y) &&
+              y <= (SCREEN_CENTER_Y + CENTRAL_QUADRANT_THRESHOLD_Y)) {
+            Serial.println("   --> OBJETIVO EN CENTRO: Girar a la izquierda!");
+            // Aquí iría el código para que tu robot gire a la izquierda
+            // Ejemplo: robot.turnLeft(); 
+          }
+          break; // Pasa a la impresión de datos (si printPriorityDetails es true)
+        }
+
+        case OBSTACLE_SIGNATURE: { // Reglas para el OBSTÁCULO (verde) - AHORA COMO PRIORITARIO
+          // Si este no es el obstáculo más cercano, lo ignoramos y pasamos al siguiente.
+          if (j != closestObstacleIndex) {
+            // Serial.println("   --> Descartado OBSTÁCULO (no es el más cercano)."); // Descomentar para depurar
+            continue;
+          }
+
+          objectLabel = "[OBSTÁCULO] ";
+
+          if ((width * height) < OBSTACLE_MIN_AREA_PIXELS) {
+            Serial.println("   --> Descartado " + objectLabel + " (área muy pequeña).");
+            continue;
+          }
+
+          float aspectRatio = (float)width / (float)height;
+          if (aspectRatio < OBSTACLE_MIN_ASPECT_RATIO || aspectRatio > OBSTACLE_MAX_ASPECT_RATIO) {
+            Serial.println("   --> Descartado " + objectLabel + " (forma incorrecta).");
+            continue;
+          }
+          
+          if (age < OBSTACLE_MIN_AGE_FRAMES && distance > OBSTACLE_DISTANCE_THRESHOLD) {
+            Serial.println("   --> Descartado " + objectLabel + " (lejano y fugaz).");
+            continue;
+          }
+          
+          objectLabel = "[OBSTÁCULO PRIORITARIO] ";
+          printPriorityDetails = true; // Activa la impresión de detalles para este obstáculo prioritario
+
+          // Lógica para girar a la izquierda si el obstáculo está en el cuadrante central
+          if (x >= (SCREEN_CENTER_X - CENTRAL_QUADRANT_THRESHOLD_X) && 
+              x <= (SCREEN_CENTER_X + CENTRAL_QUADRANT_THRESHOLD_X) &&
+              y >= (SCREEN_CENTER_Y - CENTRAL_QUADRANT_THRESHOLD_Y) &&
+              y <= (SCREEN_CENTER_Y + CENTRAL_QUADRANT_THRESHOLD_Y)) {
+            Serial.println("   --> OBSTÁCULO EN CENTRO: Girar a la izquierda!");
+            // Aquí iría el código para que tu robot gire a la izquierda
+            // Ejemplo: robot.turnLeft(); 
+          }
+          break; 
+        }
+
+        default: { // Reglas para cualquier otra firma (ej. firma 2)
+          objectLabel = "[Info] ";
+          // printPriorityDetails no se activa para otras firmas, por lo que no se imprimirán los detalles.
+          break; 
+        }
       }
-      break;
 
-    case 3: // Firma 3: Reconocida como 'AZUL' (ej. zona de parada o descanso)
-      estadoActual = DETENIDO_AZUL;
-      // El carrito debe detenerse completamente al ver este color
-      // controlMotor(DETENER);
-      // Serial.println("Objeto AZUL detectado! Deteniendo completamente."); // Debug
-      break;
-
-    default: // detectedSignature es 0 o cualquier otra firma no definida
-      estadoActual = BUSCANDO;
-      // No se detectó ningún color de interés. El carrito puede:
-      // - Girar lentamente en círculos para buscar el objetivo.
-      // - Avanzar despacio.
-      // - Quedarse quieto y esperar.
-      // controlMotor(BUSCAR_OBJETIVO);
-      // Serial.println("Buscando objetivo..."); // Debug
-      break;
+      // --- IMPRESIÓN DE DATOS SOLO PARA OBJETOS PRIORITARIOS (SIGNATURA 1 Y EL OBSTÁCULO MÁS CERCANO) ---
+      // Este código solo se ejecuta si el objeto no fue descartado por un 'continue'
+      // Y si la bandera printPriorityDetails es verdadera
+      if (printPriorityDetails) {
+        Serial.print("   " + objectLabel + "Firma: ");
+        Serial.print(signature);
+        Serial.print("   X: ");
+        Serial.print(x);
+        Serial.print("   Y: ");
+        Serial.print(y);
+        Serial.print("   Ancho: ");
+        Serial.print(width);
+        Serial.print("   Alto: ");
+        Serial.print(height);
+        Serial.print("   Edad: ");
+        Serial.print(age);
+        
+        if (width > 0) { // Solo imprime la distancia si el ancho es válido para evitar NaNs
+          Serial.print("   Distancia: ");
+          Serial.print(distance, 1);
+          Serial.println(" cm");
+        } else {
+          Serial.println();
+        }
+      }
+    }
+    Serial.println("---");
   }
 
-  // --- Fin de la Lógica Principal ---
-
-
-  // Pequeña pausa para permitir que Pixy2 procese los frames de la cámara.
-  // Ajusta este delay si necesitas más o menos velocidad de detección.
-  delay(20);
+  delay(2000);
 }
-
-
-// --- Aquí irían tus funciones reales para controlar los motores del carrito ---
-// Por ejemplo, usando un driver L298N, un TB6612FNG, o directamente con PWM y HIGH/LOW.
-// Necesitarías definir tus pines de motor y la lógica de movimiento.
-/*
-// Ejemplo de definiciones (adapta a tu carrito)
-#define MOTOR_IZQ_ADELANTE_PIN  2
-#define MOTOR_IZQ_ATRAS_PIN    3
-#define MOTOR_DER_ADELANTE_PIN  4
-#define MOTOR_DER_ATRAS_PIN    5
-#define MOTOR_PWM_PIN_IZQ      6  // Si controlas velocidad con PWM
-#define MOTOR_PWM_PIN_DER      7  // Si controlas velocidad con PWM
-
-void controlMotor(int accion) {
-  switch (accion) {
-    case AVANZAR_RECTO:
-      // Lógica para motores que avancen recto
-      // digitalWrite(MOTOR_IZQ_ADELANTE_PIN, HIGH);
-      // digitalWrite(MOTOR_DER_ADELANTE_PIN, HIGH);
-      // analogWrite(MOTOR_PWM_PIN_IZQ, 200);
-      // analogWrite(MOTOR_PWM_PIN_DER, 200);
-      break;
-    case GIRAR_IZQUIERDA:
-      // Lógica para motores que giren a la izquierda
-      break;
-    case GIRAR_DERECHA:
-      // Lógica para motores que giren a la derecha
-      break;
-    case DETENER:
-      // Lógica para detener los motores
-      // digitalWrite(MOTOR_IZQ_ADELANTE_PIN, LOW);
-      // digitalWrite(MOTOR_IZQ_ATRAS_PIN, LOW);
-      // digitalWrite(MOTOR_DER_ADELANTE_PIN, LOW);
-      // digitalWrite(MOTOR_DER_ATRAS_PIN, LOW);
-      break;
-    // ... otros estados de movimiento
-  }
-}
-
-// Definiciones de acciones de movimiento (ejemplo)
-#define AVANZAR_RECTO       1
-#define AVANZAR_LENTO       2
-#define GIRAR_IZQUIERDA     3
-#define GIRAR_DERECHA       4
-#define DETENER             5
-#define BUSCAR_OBJETIVO     6
-*/
