@@ -1,6 +1,13 @@
 # Introducción.
 
-El equipo DB Engineers se enorgullece en presentar a "Chola", un robot que representa nuestro esfuerzo de diseño y desarrollo de un sistema autónomo capaz de actuar de manera inteligente con su entorno, que permite demostrar integrar diversas tecnologías de control, para buscar la eficiencia y precisión en cada una de las tareas que debe ejecutar.
+## Eduardo
+Soy estudiante de cuarto año de bachillerato, soy alguien muy sociable, competitivo, y me gusta experimentar en cosas que nunca he hecho. Este es mi primer año en robótica, por lo consiguiente no tengo mucha experiencia en este ámbito. Tengo conocimientos del mundo automotriz, por lo que soy el mecánico y diseñador del robot.
+## Alessandro
+Soy estudiante de quinto año de bachillerato, me califico como trabajador y competitivo; debo decir que odio perder. Este es mi segundo año en la WRO. El año pasado competí en la categoría Misiones Robóticas, también participe en la competencia de la ONU AI for youth challenge en la cual mi equipo fue el ganador. Tengo experiencia en programación, por lo cual soy el programador 
+## Brayan
+Soy estudiante de cuarto año de bachillerato, me considero alguien muy sociable, competitivo, creativo y gozo siempre de muy buen humor. Este es mi segundo año en robótica, el año pasado participé en la competencia internacional de la WRO, celebrada Turquía, en la categoría Futuros Innovadores. este año me he planteado un reto: consolidarme como campeón internacional en una categoría distinta; la de Futuros Ingenieros. Por mi experiencia en la electrónica y programación soy, el responsable de todo el cableado en el proyecto y programador.
+
+El equipo DB Engineers se enorgullece en presentar a *Chola*, un robot que representa nuestro esfuerzo de diseño y desarrollo de un sistema autónomo capaz de actuar de manera inteligente con su entorno, que permite demostrar integrar diversas tecnologías de control, para buscar la eficiencia y precisión en cada una de las tareas que debe ejecutar.
 Durante el desarrollo de este proyecto, afrontamos desafíos que requirieron idear e implementar soluciones para dar vida a nuestro robot, desde su arquitectura de software y hardware hasta su capacidad para navegar y ejecutar acciones específicas. Chola es más que un robot; es una prueba de nuestro compromiso con la ingeniería y la innovación, creado para superar obstáculos y aprender de su interacción con el mundo.
 
 ## El robot Chola
@@ -15,16 +22,16 @@ La estructura del código se organiza en una serie de funciones clave. Cada una 
 Para controlar el movimiento angular preciso del robot, se ha decidido utilizar un motor paso a paso de 5V en lugar de un servo tradicional. Aunque los servos son excelentes para posicionamientos rápidos, se ha descubierto que un motor paso a paso ofrece una precisión de posicionamiento superior y la capacidad de mantener una posición sin requerir una señal PWM constante. Esto es ideal para su sistema de dirección, que necesita un control muy exacto, como el de un sistema Ackermann. Este tipo de motor es perfecto cuando la estabilidad y la precisión del ángulo son más importantes que la velocidad extrema.
 ### Especificaciones Clave del 28BYJ-48
  ![Eje trasero](./schemes/Motor_stepper)
-    - Voltaje de Operación: Necesita alimentarlo con 5V DC. Es fundamental asegurarse de que la fuente de alimentación para el controlador del motor paso a paso sea estable a 5V para que funcione perfectamente.
-    - Ángulo de Paso: Típicamente, el ángulo de paso es de 1.8 a 7.5 grados por paso. Esto es lo que le da la resolución del movimiento; cuanto más pequeño sea el ángulo, mayor será la precisión que puede lograr.
-    - Corriente por Fase: Esta varía según el modelo, pero es vital que su controlador de motor paso a paso pueda suministrar la corriente adecuada para el torque que necesita.
-    - Torque (Par): Aunque generalmente tiene menos torque que un servo MG995, el torque de el motor paso a paso de 5V es suficiente para la dirección en su robot.
-    - Número de Fases: Usualmente son bipolares o unipolares, lo cual influye en cómo lo cablea y qué tipo de controlador necesita.
+- Voltaje de Operación: Necesita alimentarlo con 5V DC. Es fundamental asegurarse de que la fuente de alimentación para el controlador del motor paso a paso sea estable a 5V para que funcione perfectamente.
+- Ángulo de Paso: Típicamente, el ángulo de paso es de 1.8 a 7.5 grados por paso. Esto es lo que le da la resolución del movimiento; cuanto más pequeño sea el ángulo, mayor será la precisión que puede lograr.
+- Corriente por Fase: Esta varía según el modelo, pero es vital que su controlador de motor paso a paso pueda suministrar la corriente adecuada para el torque que necesita.
+- Torque (Par): Aunque generalmente tiene menos torque que un servo MG995, el torque de el motor paso a paso de 5V es suficiente para la dirección en su robot.
+- Número de Fases: Usualmente son bipolares o unipolares, lo cual influye en cómo lo cablea y qué tipo de controlador necesita.
 El motor paso a paso de 5V es ideal para el sistema de dirección Ackermann porque su capacidad de posicionamiento exacto y repetible es clave para manipular los ángulos de las ruedas con mucha efectividad. A diferencia de un servo, puede detenerlo en cualquier paso intermedio, lo que le da un control incremental y muy preciso.
 
 ### Posibles Mejoras:
-    - Motores Paso a Paso con Mayor Torque: Si el robot necesita mover mecanismos más pesados o resistir fuerzas externas mayores en el futuro, se consideraría usar un motor paso a paso con un torque nominal más alto. Esto probablemente implicaría un mayor voltaje de operación o corriente, lo que a su vez requeriría un controlador de motor más robusto.
-    - Protección contra el Agua y el Polvo: Dependiendo de dónde opere el robot, se beneficiaría mucho usar motores paso a paso sellados o construir carcasas protectoras alrededor de ellos. Esto aumentaría su fiabilidad y vida útil al protegerlos de la humedad y la suciedad.
+ - Motores Paso a Paso con Mayor Torque: Si el robot necesita mover mecanismos más pesados o resistir fuerzas externas mayores en el futuro, se consideraría usar un motor paso a paso con un torque nominal más alto. Esto probablemente implicaría un mayor voltaje de operación o corriente, lo que a su vez requeriría un controlador de motor más robusto.
+  - Protección contra el Agua y el Polvo: Dependiendo de dónde opere el robot, se beneficiaría mucho usar motores paso a paso sellados o construir carcasas protectoras alrededor de ellos. Esto aumentaría su fiabilidad y vida útil al protegerlos de la humedad y la suciedad.
 Lo puedes conseguir aquí: 
 Amazon.com: WWZMDiB 28BYJ-48 ULN2003 Kit de motor paso a paso y placa de conductor de 5 V compatible con Arduino Raspberry Pi (3 piezas) : Electrónica
 
@@ -32,15 +39,15 @@ Amazon.com: WWZMDiB 28BYJ-48 ULN2003 Kit de motor paso a paso y placa de conduct
 En la valida anterior, nos apoyábamos en un ARDUINO UNO para gestionar los diversos componentes del robot. Para esta competencia, buscamos una solución más potente y consolidada, por lo que confiamos en el Arduino GIGA R1 WiFi, que es microcontrolador el cual es un avance significativo, al combinar una gran capacidad de procesamiento con conectividad integrada, que lo hace ideal para manejar todos los sensores y actuadores del robot de manera más optimizada y eficiente.
 ## Especificaciones Clave del Arduino GIGA R1 WiFi:
 ![Eje trasero](./schemes/Arduino_GIGA)
-    - Microcontrolador: STM32H747XI (Dual-core, Cortex-M7 a 480 MHz y Cortex-M4 a 240 MHz)
-    - Memoria Flash: 2 MB
-    - SRAM: 1 MB
-    - Frecuencia del reloj: Hasta 480 MHz (Cortex-M7)
-    - Pines: 76 pines digitales I/O (incluyendo 12 analógicos, 20 PWM, 4 UART, 3 SPI, 3 I2C, entre otros).
-    - Voltaje de entrada (VIN): 6-24V
-    - Capacidades Adicionales: Wi-Fi y Bluetooth integrados, USB-C, conector JTAG.
+- Microcontrolador: STM32H747XI (Dual-core, Cortex-M7 a 480 MHz y Cortex-M4 a 240 MHz)
+- Memoria Flash: 2 MB
+- SRAM: 1 MB
+- Frecuencia del reloj: Hasta 480 MHz (Cortex-M7)
+- Pines: 76 pines digitales I/O (incluyendo 12 analógicos, 20 PWM, 4 UART, 3 SPI, 3 I2C, entre otros).
+- Voltaje de entrada (VIN): 6-24V
+- Capacidades Adicionales: Wi-Fi y Bluetooth integrados, USB-C, conector JTAG.
 ## Posibles Mejoras:
-    - Diseño de un PCB personalizado: Crear una placa de circuito impreso (PCB) a medida que integre directamente el Arduino GIGA R1 WiFi con otros componentes esenciales. Esto reduciría el cableado, optimizaría el espacio y ofrecería una configuración más limpia y profesional.
+- Diseño de un PCB personalizado: Crear una placa de circuito impreso (PCB) a medida que integre directamente el Arduino GIGA R1 WiFi con otros componentes esenciales. Esto reduciría el cableado, optimizaría el espacio y ofrecería una configuración más limpia y profesional.
 
 [Aqui lo encontraras](https://www.amazon.com/Arduino-Giga-R1-WiFi-ABX00063/dp/B0BTTRZ9TB)  [text](https://www.amazon.com/Arduino-Giga-R1-WiFi-ABX00063/dp/B0BTTRZ9TB)
 
@@ -73,7 +80,7 @@ A pesar de ser un chasis adquirido, este fue sometido a algunas modificaciones c
 
 ----
 
-![Insytrucciones](./others/piezas/Platinadobaldo.png)
+![Insytrucciones](./others/piezas/instruccionesdoblado.png)
 
 El kit incluye otras piezas de plástico que fueron usadas de manera particular para este proyecto, específicamente las siguientes piezas:
 ![Piezas direccion](./others/piezas/Resinaepoxi.jpg)
@@ -83,10 +90,6 @@ Estas deberán unirse de la siguiente manera: Haciendo uso de resina epoxica man
 
 ## Sistema de Dirección
 El kit original venía con un sistema de dirección basado en un servomotor y algunas piezas para crear un sistema de dirección Ackerman. Este diseño fue una elección conveniente, no solo porque ya estaba incluido en el kit, sino también porque la configuración Ackerman es ideal para el propósito de la competencia. Permite que el vehículo tenga un sobreviraje controlado, lo que facilita giros más rápidos y eficientes, optimizando así el rendimiento en la competencia.
-
-
-
-[Aquí encontrará un tutorial del armado original del chasis](https://youtu.be/ulTM1uV1Bvg?si=uPVaVt-tIMoJ6x8m)
 
 
 
@@ -125,6 +128,20 @@ Para transmitir el movimiento a las ruedas traseras , se engrana el motor a un p
 - Lo cual todo esto nos deja una transmisión de 1500rpm a 375 rpm de el motor a el eje.
 
 ## Circuito electrico
+
+Este diagrama representa las conexiones fundamentales del sistema de nuestro robot “Chola”, propulsado por una batería de Li-on de 7.4V y 4000 mAh y gestionado por un Arduino GIGA. Esta integración de componentes permite la detección de obstáculos, el control de movimiento y la percepción visual.
+La batería de 7.4V y 4Ah sirve como la fuente de energía principal para todo el sistema. Ya que muchos componentes operan a 5V o 3.3V, se ha incorporado un regulador de voltaje LM2596. Este regulador es muy importante, ya que reduce el voltaje de la batería (7.4V) a 5V para alimentar el Arduino GIGA y los sensores, minimizando la disipación de calor en comparación con los reguladores lineales. El motor DC se alimenta directamente de la batería a 7.4V, aprovechando la capacidad de la batería para proporcionar la corriente necesaria para su funcionamiento. 
+
+- Tipo de Batería: Ión de Litio (Li-ion). Fueron elegidas por su equilibrio entre densidad de energía, ciclo de vida y seguridad relativa, en comparación con otras baterías de litio. 
+- Voltaje Nominal: 7.4V. Esto se debe a que está compuesto por dos celdas de Ión de Litio conectadas en serie (2S). Cada celda Li-ion tiene un voltaje nominal de 3.7V, lo que suma 2×3.7V=7.4V. 
+- Capacidad: 4000 mAh (Miliamperios-hora) o 4 Ah (Amperios-hora). Esta cifra indica cuánta carga eléctrica puede almacenar la batería. Teóricamente, una batería de 4Ah puede suministrar 4 Amperios de corriente durante una hora, o 1 Amperio durante cuatro horas. 
+- Dimensiones y Peso:3.7cm x 1.8cm x 7 cm y 100 gramos de peso.
+
+![Circuito electrico](./others/planos/Circuito_electrico)
+
+
+
+
 
 
 
