@@ -1,8 +1,8 @@
 ## Construcción Mecánica y Eléctrica
 El proyecto Chola basa la estructura de su chasis en un Kit de carros autónomos adquirido a través de Alibaba: Encuéntralo aquí 
 A pesar de ser un chasis adquirido, este fue sometido a algunas modificaciones con el fin de adaptarlo mejor a las necesidades y los lineamientos de la competencia. Es por ello que decidimos realizar un doblez a la platina principal del chasis en 90 grados hacia arriba:
-![Platina antes](./other/piezas/platinaoriginal)
-![Platina despues](./other/piezas/platinadespues)
+![Platina antes](./others/piezas/platinaoriginal)
+![Platina despues](./others/piezas/platinadespues)
 Dibujo de instrucciones: [Insertar dibujo aquí]
 El kit incluye otras piezas de plástico que fueron usadas de manera particular para este proyecto, específicamente las siguientes piezas:
 [Insertar imágenes de las piezas aquí]
@@ -22,10 +22,10 @@ Perforar la cobertura para el motor.
 ## Medidas generales
 
 Las ruedas traseras vienen incluidas en el kit , tienen unas medidas de 6cm de diámetro y 3cm de grosor 
-![Rueda trasera](./other/piezas/ruedasmedidas.png)
+![Rueda trasera](./others/piezas/ruedasmedidas.png)
 
 Las ruedas delanteras son ruedas de para lego genéricas con medidas de 2.5cm de grosor y 4 cm de diámetro.
-![Rueda delantera](./other/piezas/ruedasdelante1.jpg)
+![Rueda delantera](./others/piezas/ruedasdelante1.jpg)
 
 El eje trasero mide 8.5cm de longitud y el eje delantero mide 6.4cm con un volado delantero de 5cm.
 
