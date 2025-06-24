@@ -87,7 +87,7 @@ El kit incluye otras piezas de plástico que fueron usadas de manera particular 
 ![Piezas direccion](./others/piezas/Resinaepoxi.jpg)
 
 Estas deberán unirse de la siguiente manera: Haciendo uso de resina epoxica mantenemos las piezas unidas de manera firme y resistente a impactos durante las pruebas de funcionamiento. También aprovechamos los agujeros para tornillos que tienen estas piezas para fijar nuestro microcontrolador principal:
-[Insertar imagen del microcontrolador fijado aquí]
+![micro](./v-fotos/foto_arriba.jpg)
 
 ## Sistema de Dirección
 El kit original venía con un sistema de dirección basado en un servomotor y algunas piezas para crear un sistema de dirección Ackerman. Este diseño fue una elección conveniente, no solo porque ya estaba incluido en el kit, sino también porque la configuración Ackerman es ideal para el propósito de la competencia. Permite que el vehículo tenga un sobreviraje controlado, lo que facilita giros más rápidos y eficientes, optimizando así el rendimiento en la competencia.
@@ -98,7 +98,7 @@ Imágenes de las piezas:
 ![Piezas direccion](./others/piezas/piezassistema.jpg)
 
 
-### Sin embargo, a pesar de las ventajas del sistema ya incluido con el kit, por motivos de precisión y durabilidad, decidimos realizar cambios a este sistema:
+#### Sin embargo, a pesar de las ventajas del sistema ya incluido con el kit, por motivos de precisión y durabilidad, decidimos realizar cambios a este sistema:
 - Crear una placa de Baquelita de 2.5cm por 8.5cm.
 - Utilizar un motor tipo stepper 28BYJ-48 de 5v.
 - Utilizar una cobertura de motor circular.
@@ -121,7 +121,7 @@ El eje trasero mide 8.5cm de longitud y el eje delantero mide 6.4cm con un volad
 La distancia entre ejes de 15.5 cm 
 
 
- - Las medidas totales de Chola con 21cm de largo y 8cm de ancho sin tomar en cuenta las ruedas , con estas el groso se eleva a 15 cm 
+ - #### Las medidas totales de Chola con 21cm de largo y 8cm de ancho sin tomar en cuenta las ruedas , con estas el groso se eleva a 15 cm 
 ## Sistema de motor
  - El motor usado es un motor DC de 3v a 12v genérico , con un piñón de 12 dientes. 
 Para transmitir el movimiento a las ruedas traseras , se engrana el motor a un piñón de 45 dientes , este último está ubicado en el eje de las ruedas y transmite el movimiento de los motores en una relación de 3,75
@@ -141,7 +141,7 @@ Este diagrama representa las conexiones fundamentales del sistema de nuestro rob
 La batería de 7.4V y 4Ah sirve como la fuente de energía principal para todo el sistema. Ya que muchos componentes operan a 5V o 3.3V, se ha incorporado un regulador de voltaje LM2596. Este regulador es muy importante, ya que reduce el voltaje de la batería (7.4V) a 5V para alimentar el Arduino GIGA y los sensores, minimizando la disipación de calor en comparación con los reguladores lineales. El motor DC se alimenta directamente de la batería a 7.4V, aprovechando la capacidad de la batería para proporcionar la corriente necesaria para su funcionamiento. 
 
 
-![Regulador](./schemes/regulador.png)
+![Regulador](./schemes/Regulador.png)
 
 
 - Tipo de Batería: Ión de Litio (Li-ion). Fueron elegidas por su equilibrio entre densidad de energía, ciclo de vida y seguridad relativa, en comparación con otras baterías de litio. 
