@@ -6,7 +6,7 @@ Soy estudiante de cuarto año de bachillerato, soy alguien muy sociable, competi
 ## Alessandro
 Soy estudiante de quinto año de bachillerato, me califico como trabajador y competitivo; debo decir que odio perder. Este es mi segundo año en la WRO. El año pasado competí en la categoría Misiones Robóticas, también participe en la competencia de la ONU AI for youth challenge en la cual mi equipo fue el ganador. Tengo experiencia en programación, por lo cual soy el programador 
 ## Brayan
-Soy estudiante de cuarto año de bachillerato, me considero alguien muy sociable, competitivo, creativo y gozo siempre de muy buen humor. Este es mi segundo año en robótica, el año pasado participé en la competencia internacional de la WRO, celebrada Turquía, en la categoría Futuros Innovadores. este año me he planteado un reto: consolidarme como campeón internacional en una categoría distinta; la de Futuros Ingenieros. Por mi experiencia en la electrónica y programación soy, el responsable de todo el cableado en el proyecto y programador.
+Soy estudiante de cuarto año de bachillerato, me considero alguien muy sociable, competitivo, creativo y gozo siempre de muy buen humor. Este es mi segundo año en robótica, el año pasado participé en la competencia internacional de la WRO, celebrada Turquía, en la categoría Futuros Innovadores. este año me he planteado un reto: consolidarme como campeón internacional en una categoría distinta; la de Futuros Ingenieros. Por mi experiencia en la electrónica y programación soy, el responsable de todo el cableado en el proyecto y su ensamblado.
 
 ## EL PROYECTO CHOLA
 El equipo DB Engineers se enorgullece en presentar a *Chola*, un robot que representa nuestro esfuerzo de diseño y desarrollo de un sistema autónomo capaz de actuar de manera inteligente con su entorno, que permite demostrar integrar diversas tecnologías de control, para buscar la eficiencia y precisión en cada una de las tareas que debe ejecutar.
@@ -154,7 +154,7 @@ La batería de 7.4V y 4Ah sirve como la fuente de energía principal para todo e
 
 
 ## Esquema de conecciones y PIN OUTS
-![Circuito electrico](./others/planos/Circuito_electrico.jpg)
+![Circuito electrico](./others/planos/Circuito_electrico.png)
 
 ## Estrategia
 
